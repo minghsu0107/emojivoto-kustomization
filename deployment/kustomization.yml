@@ -1,0 +1,15 @@
+#namePrefix: dev-
+#nameSuffix: "-001"
+
+#commonLabels:
+#  app: emojivoto
+
+resources:
+- ns.yml
+- web.yml
+- emoji.yml
+- voting.yml
+- vote-bot.yml
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization

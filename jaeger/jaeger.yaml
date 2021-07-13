@@ -1,0 +1,61 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: jaeger-collector
+  labels:
+    app: jaeger
+    app.kubernetes.io/name: jaeger
+    app.kubernetes.io/component: collector
+  annotations:
+    prometheus.io/port: metrics
+    prometheus.io/scrape: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jaeger
+      app.kubernetes.io/name: jaeger
+      app.kubernetes.io/component: collector
+  template:
+    metadata:
+      labels:
+        app: jaeger
+        app.kubernetes.io/name: jaeger
+        app.kubernetes.io/component: collector
+    spec:
+      dnsPolicy: ClusterFirst
+      containers:
+      - name: jaeger
+        image: jaegertracing/all-in-one:1.22.0
+        ports:
+        - name: collection
+          containerPort: 14268
+        - name: ui
+          containerPort: 16686
+        - name: metrics
+          containerPort: 14269
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-collector
+  labels:
+    app: jaeger
+    app.kubernetes.io/name: jaeger
+    app.kubernetes.io/component: collector
+  annotations:
+    prometheus.io/port: "14269"
+    prometheus.io/scrape: "true"
+spec:
+  selector:
+    app: jaeger
+    app.kubernetes.io/name: jaeger
+    app.kubernetes.io/component: collector
+  ports:
+  - name: collection
+    port: 14268
+  - name: ui
+    port: 16686
+  - name: metrics
+    port: 14269

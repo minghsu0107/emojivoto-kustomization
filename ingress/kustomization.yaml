@@ -1,0 +1,12 @@
+namespace: default
+resources:
+- crd.yaml
+- namespace.yaml
+- rbac.yaml
+- traefik.yaml
+patches:
+- path: patch.yaml
+  target:
+    kind: Deployment
+    name: traefik
+    labelSelector: app=traefik

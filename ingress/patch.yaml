@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        config.alpha.linkerd.io/trace-collector-service-account: collector
+        config.linkerd.io/trace-collector: collector.linkerd-jaeger:55678
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+      - name: traefik
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi

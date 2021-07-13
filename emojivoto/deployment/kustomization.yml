@@ -5,7 +5,8 @@
 #  app: emojivoto
 
 resources:
-- ns.yml
+- namespace.yml
+- ingressroute.yaml
 - web.yml
 - emoji.yml
 - voting.yml

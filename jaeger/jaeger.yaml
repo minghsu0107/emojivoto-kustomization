@@ -59,3 +59,22 @@ spec:
     port: 16686
   - name: metrics
     port: 14269
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-collector-nodeport
+  labels:
+    app: jaeger
+    app.kubernetes.io/name: jaeger
+    app.kubernetes.io/component: collector
+spec:
+  type: NodePort
+  selector:
+    app: jaeger
+    app.kubernetes.io/name: jaeger
+    app.kubernetes.io/component: collector
+  ports:
+  - name: ui
+    nodePort: 30080
+    port: 16686

@@ -19,10 +19,24 @@ The application is composed of the following 3 services:
 * Linkerd (`stable-2.10.2`) and Linkerd Jaeger plugin installation
 * Ingress controller installation with tracing enabled and injected to Linkerd
 
+Create a local cluster with one node and using [K3d](https://github.com/rancher/k3d):
+```bash
+k3d cluster create mycluster --agents 1 -p "80:80@loadbalancer" -p "8000:30080@agent[0]" --k3s-server-arg "--no-deploy=traefik"
+```
+We expose host port 80 and port forward to port 80 of the service load balancer in our K3d cluster. Also, we port expose node port 30080 of our K3d cluster to host port 8000. We will later use this port to access Jaeger UI.
+
 Install Linkerd:
 ```bash
 LINKERD2_VERSION=stable-2.10.2 curl -sL https://run.linkerd.io/install | sh
 linkerd install | kubectl apply -f -
+```
+Install Linkerd visualization plugin:
+```bash
+linkerd viz install | kubectl apply -f -
+```
+Check Linkerd installation:
+```bash
+linkerd check
 ```
 Install Jaeger backend:
 ```bash
@@ -48,4 +62,13 @@ kubectl kustomize emojivoto/tracing | kubectl apply -f -
 # or
 
 kubectl apply -k emojivoto/tracing
+```
+### Have Fun UI
+- Visit emojivoto web at http://localhost.
+- Visit Jaeger UI at http://localhost:8000.
+- Visit Linkerd dashboard by executing `linkerd viz dashboard`.
+### Clean Up
+Delete the cluster:
+```bash
+k3d cluster delete mycluster
 ```

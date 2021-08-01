@@ -23,7 +23,7 @@ Create a local cluster with one node and using [K3d](https://github.com/rancher/
 ```bash
 k3d cluster create mycluster --agents 1 -p "80:80@loadbalancer" -p "8000:30080@agent[0]" --k3s-server-arg "--no-deploy=traefik"
 ```
-We expose host port 80 and port forward to port 80 of the service load balancer in our K3d cluster. Also, we port expose node port 30080 of our K3d cluster to host port 8000. We will later use this port to access Jaeger UI.
+We expose host port 80 and forward to port 80 of the service load balancer in our K3d cluster. Also, we expose host port 8000 and forward to node port 30080 of our K3d cluster. We will later use these ports to access web UI and Jaeger UI respectively.
 
 Install Linkerd:
 ```bash

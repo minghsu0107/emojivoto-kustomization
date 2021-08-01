@@ -63,7 +63,7 @@ kubectl kustomize emojivoto/tracing | kubectl apply -f -
 
 kubectl apply -k emojivoto/tracing
 ```
-### Have Fun UI
+### Have Fun With UI
 - Visit emojivoto web at http://localhost.
 - Visit Jaeger UI at http://localhost:8000.
 - Visit Linkerd dashboard by executing `linkerd viz dashboard`.
